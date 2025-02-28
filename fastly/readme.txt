@@ -3,7 +3,7 @@ Contributors: Fastly, Inchoo, CondeNast
 Tags: fastly, cdn, performance, speed, spike, spike-protection, caching, dynamic, comments, ddos
 Requires at least: 4.6.2
 Tested up to: 6.5.2
-Stable tag: 1.2.26
+Stable tag: 1.2.27
 License: GPLv2
 
 Integrates Fastly with WordPress publishing tools.
@@ -82,7 +82,10 @@ More details can be found at https://github.com/fastly/WordPress-Plugin/blob/mas
 
 Available wordpress hooks (add_action) on:
 
-Editing purging keys output
+Editing related (purging) keys for a given post
+ purgely_related_keys
+
+Editing surrogate keys output
  purgely_pre_send_keys
  purgely_post_send_keys
     functions: add_keys
@@ -104,6 +107,12 @@ function custom_headers_edit($header_object)
   $header_object->edit_headers(array(\'custom-header\' => \'555\', \'max-age\' => \'99\'));
 }
 
+add_filter(\'purgely_related_keys\', \'custom_related_keys\', 10, 2);
+function custom_related_keys($keys_array, $post_object) {
+    $keys_array[] = \'custom-key\';
+    return $keys_array;
+}
+
 add_action(\'purgely_pre_send_keys\', \'custom_surrogate_keys\');
 function custom_surrogate_keys($keys_object) {
     $keys_object->add_key(\'custom-key\');
@@ -117,6 +126,10 @@ Note: you may have to disable other caching plugins like W3TotalCache to avoid g
 3. Fastly Webhooks Tab
 
 == Changelog ==
+
+= 1.2.27
+
+* Allowing usage of Fastly service without stored credentials
 
 = 1.2.26
 
