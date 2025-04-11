@@ -53,6 +53,11 @@ class Vcl_Handler
     protected $_errors = array();
 
     /**
+     * @var false|mixed
+     */
+    private $_response_object_data;
+
+    /**
      * Sets data to be processed, sets Credentials
      * Vcl_Handler constructor.
      */
